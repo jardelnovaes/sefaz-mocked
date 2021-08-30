@@ -1,9 +1,9 @@
 const express = require('express');
 const EnvelopeUtil = require('./envelopeUtil.js');
 const app = express();
-const port = 3002;
 const envelopeUtil = new EnvelopeUtil();
 require('dotenv').config()
+const port = process.env.PORT || 3002;
 
 const bodyParser = require('body-parser');
 app.use(bodyParser.json()); // support json encoded bodies
