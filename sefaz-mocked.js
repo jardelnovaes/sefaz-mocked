@@ -26,7 +26,7 @@ app.post('/sefaz-mocked-timeout', (req, res) => {
 })
 
 app.post('/NFeAutorizacao4', (req, res) => {
-  var action = process.env.NFE_AUTORIZACAO_RESULT;
+  var action = process.env.NFE_AUTORIZACAO_RESULT || 0;
   console.log(`NFeAutorizacao4 >> Action ${action}`)
   if (action == 1) {
     denegar(req, res);
@@ -48,7 +48,6 @@ app.post(['/NFeInutilizacao4', '/sefaz-mocked-inutilizar'], (req, res) => {
 
 app.listen(port, () => {
   console.log(`Sefaz mocked services is runnings at http://localhost:${port}`);
-  console.log(`NODE ENV: ${process.env.NODE_ENV} ${process.env.NFE_AUTORIZACAO_RESULT}`);
 })
 
 
