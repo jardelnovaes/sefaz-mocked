@@ -4,7 +4,7 @@ The main idea is to return a mocked value simulating a SEFAZ return.
 
 ### Install
 ```bash
-git clone <repo url>
+git clone https://github.com/jardelnovaes/sefaz-mocked.git
 cd sefaz-mocked
 npm install
 ```
