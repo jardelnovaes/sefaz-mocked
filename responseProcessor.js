@@ -32,9 +32,7 @@ class ResponseProcessor {
         });
         
         req.on('end', chunk => {          
-          var inutInfo = envelopeUtil.extractInutilizacaoInfo(content);
-          
-          //var msgToReturn = envelopeUtil.getEnvelopeAutorizacaoAutorizada(accessKey);
+          var inutInfo = envelopeUtil.extractInutilizacaoInfo(content);          
           var msgToReturn = envelopeUtil.getEnvelopeInutilizacaoAutorizada(inutInfo);
           console.log(`>> ${msgToReturn}`);
           res.send(msgToReturn);

@@ -21,8 +21,7 @@ app.get(['/', '/health'], (req, res) => {
 app.post('/sefaz-mocked-timeout', (req, res) => {
   var msg = `Received: ${req.body}`;
   console.log(msg);
-  
-  //res.status(404).send('Not found');
+
   setTimeout(function() { res.send(`Mocked service Sefaz Timeout!\n${msg}\n`)}, 70000);
   res.send(`Mocked service Sefaz Timeout!\n${msg}\n`);
 })

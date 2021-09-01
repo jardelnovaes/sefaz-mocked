@@ -17,3 +17,9 @@ npm start
 
 ### Extra configs
 You can change the behavior using the .env config file.
+
+
+### Supported Operations
+- Autorizacao
+- Denegação
+- Inutilizacao
