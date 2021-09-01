@@ -3,7 +3,17 @@
   "version": "0.1.0",
   "description": "Mocked services to simulate Sefaz services",
   "main": "sefaz-mocked.js",
-  "author": "Jardel Novaes",
+  "author": "Jardel Novaes (https://github.com/jardelnovaes)",
+  "homepage": "https://github.com/jardelnovaes/sefaz-mocked#readme",
+  "license" : "SEE LICENSE IN LICENSE",  
+  "repository": "github:jardelnovaes/sefaz-mocked",
+  "keywords": [
+    "sefaz",
+    "mock",
+    "webservice",
+    "novaes",
+    "jardel"
+  ],
   "dependencies": {
     "dotenv": "^10.0.0",
     "express": "^4.16.2"
