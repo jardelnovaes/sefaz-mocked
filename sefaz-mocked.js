@@ -42,5 +42,5 @@ app.post('/sefaz-mocked-denegar', (req, res) => responseProcessor.denegar(req, r
 
 app.post(['/NFeInutilizacao4', '/sefaz-mocked-inutilizar'], (req, res) => responseProcessor.inutilizar(req, res))
 
-app.listen(port, () => console.log(`Sefaz mocked services is runnings at http://localhost:${port}`))
+app.listen(port, () => console.log(`Sefaz mocked services is running at http://localhost:${port}`))
 
