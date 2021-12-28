@@ -9,6 +9,7 @@ You can change the behavior using the .env config file.
 
 ### Supported Operations
 - Autorizacao
+- Rejeição (Customizável)
 - Denegação
 - Inutilizacao
 
@@ -39,7 +40,7 @@ Sefaz mocked services is runnings at http://localhost:3002
 
 <br/>
 
-## From Source Fode
+## From Source Code
 ### Install
 ```bash
 git clone https://github.com/jardelnovaes/sefaz-mocked.git
