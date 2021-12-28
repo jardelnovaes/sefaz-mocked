@@ -1,6 +1,6 @@
 {
   "name": "sefaz-mocked-service",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Mocked services to simulate Sefaz services",
   "main": "sefaz-mocked.js",
   "author": "Jardel Novaes (https://github.com/jardelnovaes)",
@@ -13,8 +13,8 @@
     "webservice",
     "novaes",
     "jardel",
-	"nfe",
-	"nfce"
+    "nfe",
+    "nfce"
   ],
   "dependencies": {
     "dotenv": "^10.0.0",
