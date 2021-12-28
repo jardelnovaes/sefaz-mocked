@@ -1,6 +1,6 @@
 {
   "name": "sefaz-mocked-service",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Mocked services to simulate Sefaz services",
   "main": "sefaz-mocked.js",
   "author": "Jardel Novaes (https://github.com/jardelnovaes)",
@@ -20,6 +20,6 @@
   },
   "scripts": {
     "start": "node sefaz-mocked.js",
-	"dev": "nodemon sefaz-mocked.js"
+    "dev": "nodemon sefaz-mocked.js"
   }
 }
