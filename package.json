@@ -12,7 +12,9 @@
     "mock",
     "webservice",
     "novaes",
-    "jardel"
+    "jardel",
+	"nfe",
+	"nfce"
   ],
   "dependencies": {
     "dotenv": "^10.0.0",
