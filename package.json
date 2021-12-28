@@ -19,6 +19,7 @@
     "express": "^4.16.2"
   },
   "scripts": {
-    "start": "node sefaz-mocked.js"
+    "start": "node sefaz-mocked.js",
+	"dev": "nodemon sefaz-mocked.js"
   }
 }

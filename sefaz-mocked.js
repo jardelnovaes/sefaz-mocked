@@ -14,16 +14,22 @@ app.use(bodyParser.json()); // support json encoded bodies
 app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 
 
+
+function timeout(req, res) {
+  var msg = `Received: ${req.body}`;
+  console.log(msg);
+  
+  req.setTimeout(70000, function() { 
+     res.send(`Mocked service Sefaz Timeout!\n${msg}\n`)
+  });
+}
+
 app.get(['/', '/health'], (req, res) => {
   res.send('Mocked service is healthy!');
 })
 
 app.post('/sefaz-mocked-timeout', (req, res) => {
-  var msg = `Received: ${req.body}`;
-  console.log(msg);
-
-  setTimeout(function() { res.send(`Mocked service Sefaz Timeout!\n${msg}\n`)}, 70000);
-  res.send(`Mocked service Sefaz Timeout!\n${msg}\n`);
+  timeout(req, res);
 })
 
 app.post('/NFeAutorizacao4', (req, res) => {
@@ -31,6 +37,8 @@ app.post('/NFeAutorizacao4', (req, res) => {
   console.log(`NFeAutorizacao4 >> Action ${action}`)
   if (action == 1) {
     denegar(req, res);
+  } else if (action == 2) {
+    timeout(req, res);
   } else {
     autorizar(req, res);
   }
