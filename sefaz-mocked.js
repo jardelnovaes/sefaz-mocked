@@ -35,13 +35,25 @@ app.post('/sefaz-mocked-timeout', (req, res) => {
 app.post('/NFeAutorizacao4', (req, res) => {
   var action = process.env.NFE_AUTORIZACAO_RESULT || 0;
   console.log(`NFeAutorizacao4 >> Action ${action}`)
-  if (action == 1) {
-    responseProcessor.denegar(req, res);
-  } else if (action == 2) {
-    timeout(req, res);
-  } else {
-    responseProcessor.autorizar(req, res);
+  switch(action) {
+	case 1:
+		responseProcessor.denegar(req, res);
+		break;
+
+	case 2:
+		timeout(req, res);
+		break;
+
+	case 3:
+		var cStat = process.env.NFE_CSTAT || "999";
+		var xMotivo = process.env.NFE_XMOTIVO || "Erro desconhecido";
+		responseProcessor.rejeitar(req, res, cStat, xMotivo);
+		break;
+
+	default:
+		responseProcessor.autorizar(req, res);
   }
+  
 });
 
 app.post('/sefaz-mocked-autorizar', (req, res) => responseProcessor.autorizar(req, res))
