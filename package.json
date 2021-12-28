@@ -1,6 +1,6 @@
 {
   "name": "sefaz-mocked-service",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "Mocked services to simulate Sefaz services",
   "main": "sefaz-mocked.js",
   "author": "Jardel Novaes (https://github.com/jardelnovaes)",
