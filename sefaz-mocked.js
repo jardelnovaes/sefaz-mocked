@@ -36,11 +36,11 @@ app.post('/NFeAutorizacao4', (req, res) => {
   var action = process.env.NFE_AUTORIZACAO_RESULT || 0;
   console.log(`NFeAutorizacao4 >> Action ${action}`)
   if (action == 1) {
-    denegar(req, res);
+    responseProcessor.denegar(req, res);
   } else if (action == 2) {
     timeout(req, res);
   } else {
-    autorizar(req, res);
+    responseProcessor.autorizar(req, res);
   }
 });
 
