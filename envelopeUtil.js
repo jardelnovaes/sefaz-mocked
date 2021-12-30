@@ -1,3 +1,5 @@
+require('./dateExtensions.js');
+
 const xml_message_id = "%%XML_MESSAGE%%";
 const dates_id = "%%DATE%%";
 const access_key_id = "%%ACCESS_KEY%%";
@@ -19,7 +21,7 @@ const xml_autorizado = '<retEnviNFe xmlns="http://www.portalfiscal.inf.br/nfe" v
 
 const xml_inutilizacao = '<retInutNFe versao="4.00" xmlns="http://www.portalfiscal.inf.br/nfe"><infInut><tpAmb>2</tpAmb><verAplic>SefazMockedService</verAplic><cStat>102</cStat><xMotivo>Inutilizacao de numero homologado</xMotivo><cUF>%%UF%%</cUF><ano>%%ANO%%</ano><CNPJ>%%CNPJ%%</CNPJ><mod>%%MOD%%</mod><serie>%%SERIE%%</serie><nNFIni>%%NFINI%%</nNFIni><nNFFin>%%NFFIN%%</nNFFin><dhRecbto>%%DATE%%</dhRecbto><nProt>990000000110111</nProt></infInut></retInutNFe>';
 
-const xml_rejeitado = '<retEnviNFe versao="4.00" xmlns="http://www.portalfiscal.inf.br/nfe"><tpAmb>2</tpAmb><verAplic>SefazMockedService</verAplic><cStat>%%CSTAT%%</cStat><xMotivo>%%XMOTIVO%%</xMotivo><cUF>41</cUF><dhRecbto>>%%DATE%%</dhRecbto></retEnviNFe>'
+const xml_rejeitado = '<retEnviNFe versao="4.00" xmlns="http://www.portalfiscal.inf.br/nfe"><tpAmb>2</tpAmb><verAplic>SefazMockedService</verAplic><cStat>%%CSTAT%%</cStat><xMotivo>%%XMOTIVO%%</xMotivo><cUF>41</cUF><dhRecbto>%%DATE%%</dhRecbto></retEnviNFe>'
 
 const access_key_regEx =/([<]infNFe).*?(Id=).*?(\d+)/g;
 const inut_info_part1_regEx =/(<cUF>)(.*?)(<\/cUF>).*?(<ano>)(\d+)(<\/ano>).*?(<CNPJ>)(\d+)(<\/CNPJ>).*?(<mod>)(\d+)(<\/mod>)/g;
@@ -29,7 +31,7 @@ class EnvelopeUtil {
 
   getBasicEnvelope(xmlMessage) {
     return envolope_autorizacao.replace(xml_message_id, xmlMessage)
-                               .replaceAll(dates_id, new Date().toISOString());
+                               .replaceAll(dates_id, new Date().toISO8601String());
   }
 
   getEnvelopeAutorizacao(xmlMessage, accessKey) {
