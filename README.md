@@ -1,6 +1,7 @@
 # SEFAZ MOCKED SERVICES
 It's just a simple nodeJs express based webserver to "mock" some Brazilian SEFAZ NF-e/NFC-e services.  
-The main idea is to return a mocked value simulating a SEFAZ return.
+The main idea is to return a mocked value simulating a SEFAZ return.  
+SEFAZ is a government department that authorizes the Brazilian invoice electronic document and other related operations.  
 
 
 ### Extra configs
