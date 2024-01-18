@@ -83,4 +83,12 @@ app.post('/NFeRecepcaoEvento4', (req, res) => {
   }
 })
 
+app.post('/NFeConsultaProtocolo4', (req, res) => {    
+  var cStat = process.env.NFE_CONSULTA_PROTOCOLO_CSTAT || "100";
+  var xMotivo = process.env.NFE_CONSULTA_PROTOCOLO_XMOTIVO || "Autorizado o uso da NF-e";
+	console.log(`cStat: ${cStat} - xMotivo: ${xMotivo}`);
+
+  responseProcessor.retornarConsultaProtocolo(req, res, cStat, xMotivo);        
+})
+
 app.listen(port, () => console.log(`Sefaz mocked services is running at http://localhost:${port}`))

@@ -82,6 +82,20 @@ class ResponseProcessor {
 		  res.send(msgToReturn);
 		});
 	}
+
+	retornarConsultaProtocolo(req, res, cStat, xMotivo) {
+		var content = "";
+		req.on('data', chunk => {    
+			content += chunk;    
+		});
+
+		req.on('end', chunk => {          
+		  var protocoloInfo = envelopeUtil.extractConsultaProtocoloInfo(content);          
+		  var msgToReturn = envelopeUtil.getEnvelopeRetornoConsultaProtocolo(protocoloInfo, cStat, xMotivo);
+		  console.log(`>> ${msgToReturn}`);
+		  res.send(msgToReturn);
+		});
+	}
 }
 
 module.exports = ResponseProcessor
