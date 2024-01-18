@@ -53,6 +53,35 @@ class ResponseProcessor {
 		  res.send(msgToReturn);
 		});
 	}
+
+	rejeitarEvento(req, res, cStat, xMotivo) {
+		var content = "";
+		req.on('data', chunk => {    
+			content += chunk;    
+		});
+
+		req.on('end', chunk => {          
+		  var eventoInfo = envelopeUtil.extractEventoInfo(content);          
+		  var msgToReturn = envelopeUtil.getEnvelopeRetornoEvento(eventoInfo, cStat || '999', xMotivo || 'Erro Generico');
+		  console.log(`>> ${msgToReturn}`);
+		  res.send(msgToReturn);
+		});
+
+	}
+
+	autorizarEvento(req, res) {
+		var content = "";
+		req.on('data', chunk => {    
+			content += chunk;    
+		});
+
+		req.on('end', chunk => {          
+		  var eventoInfo = envelopeUtil.extractEventoInfo(content);          
+		  var msgToReturn = envelopeUtil.getEnvelopeRetornoEventoAutorizado(eventoInfo);
+		  console.log(`>> ${msgToReturn}`);
+		  res.send(msgToReturn);
+		});
+	}
 }
 
 module.exports = ResponseProcessor

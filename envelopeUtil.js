@@ -12,6 +12,9 @@ const nf_ini_id = "%%NFINI%%";
 const nf_fin_id = "%%NFFIN%%";
 const cstat_id = "%%CSTAT%%";
 const xmotivo_id = "%%XMOTIVO%%";
+const corgao_id = "%%CORGAO%%";
+const tpevento_id ="%%TPEVENTO%%";
+const xevento_id ="%%XEVENTO%%";
 
 const envolope_autorizacao = `<?xml version='1.0' encoding='utf-8'?><env:Envelope xmlns:env="http://www.w3.org/2003/05/soap-envelope"><env:Body><nfeResultMsg xmlns="http://www.portalfiscal.inf.br/nfe/wsdl/NFeAutorizacao4">%%XML_MESSAGE%%</nfeResultMsg></env:Body></env:Envelope>`;
 
@@ -19,11 +22,14 @@ const xml_denegado = '<retEnviNFe xmlns="http://www.portalfiscal.inf.br/nfe" ver
 
 const xml_autorizado = '<retEnviNFe xmlns="http://www.portalfiscal.inf.br/nfe" versao="4.00"><tpAmb>2</tpAmb><verAplic>SefazMockedService</verAplic><cStat>104</cStat><xMotivo>Lote processado</xMotivo><cUF>41</cUF><dhRecbto>%%DATE%%</dhRecbto><protNFe versao="4.00"><infProt Id="ID110000000000011"><tpAmb>2</tpAmb><verAplic>SefazMockedService</verAplic><chNFe>%%ACCESS_KEY%%</chNFe><dhRecbto>%%DATE%%</dhRecbto><nProt>110000000000011</nProt><digVal>IMaM7afF7W3tHukLAIvEd4DNt0w=</digVal><cStat>100</cStat><xMotivo>Autorizado o uso da NF-e</xMotivo></infProt></protNFe></retEnviNFe>';
 
-const xml_inutilizacao = '<retInutNFe versao="4.00" xmlns="http://www.portalfiscal.inf.br/nfe"><infInut><tpAmb>2</tpAmb><verAplic>SefazMockedService</verAplic><cStat>102</cStat><xMotivo>Inutilizacao de numero homologado</xMotivo><cUF>%%UF%%</cUF><ano>%%ANO%%</ano><CNPJ>%%CNPJ%%</CNPJ><mod>%%MOD%%</mod><serie>%%SERIE%%</serie><nNFIni>%%NFINI%%</nNFIni><nNFFin>%%NFFIN%%</nNFFin><dhRecbto>%%DATE%%</dhRecbto><nProt>990000000110111</nProt></infInut></retInutNFe>';
+const xml_inutilizacao = '<retInutNFe versao="4.00" xmlns="http://www.portalfiscal.inf.br/nfe"><infInut><tpAmb>2</tpAmb><verAplic>SefazMockedService</verAplic><cStat>102</cStat><xMotivo>Inutilizacao de numero homologado</xMotivo><cUF>%%UF%%</cUF><ano>%%ANO%%</ano><CNPJ>%%CNPJ%%</CNPJ><mod>%%MOD%%</mod><serie>%%SERIE%%</serie><nNFIni>%%NFINI%%</nNFIni><nNFFin>%%NFFIN%%</nNFFin><dhRecbto>%%DATE%%</dhRecbto><nProt>99000000009911</nProt></infInut></retInutNFe>';
 
 const xml_rejeitado = '<retEnviNFe versao="4.00" xmlns="http://www.portalfiscal.inf.br/nfe"><tpAmb>2</tpAmb><verAplic>SefazMockedService</verAplic><cStat>%%CSTAT%%</cStat><xMotivo>%%XMOTIVO%%</xMotivo><cUF>41</cUF><dhRecbto>%%DATE%%</dhRecbto></retEnviNFe>'
 
+const xml_retorno_evento = '<retEnvEvento xmlns="http://www.portalfiscal.inf.br/nfe" versao="1.00"><idLote>1</idLote><tpAmb>2</tpAmb><verAplic>SefazMockedService</verAplic><cOrgao>%%CORGAO%%</cOrgao><cStat>128</cStat><xMotivo>Lote processado</xMotivo><retEvento versao="1.00"><infEvento><tpAmb>2</tpAmb><verAplic>SefazMockedService</verAplic><cOrgao>%%CORGAO%%</cOrgao><cStat>%%CSTAT%%</cStat><xMotivo>%%XMOTIVO%%</xMotivo><chNFe>%%ACCESS_KEY%%</chNFe><tpEvento>%%TPEVENTO%%</tpEvento><xEvento>%%XEVENTO%%</xEvento><nSeqEvento>1</nSeqEvento><dhRegEvento>%%DATE%%</dhRegEvento><nProt>990000000%%TPEVENTO%%</nProt></infEvento></retEvento></retEnvEvento>'
+
 const access_key_regEx =/([<]infNFe).*?(Id=).*?(\d+)/g;
+const evento_info_regEx =/<infEvento.*?<chNFe>(\d+)<\/chNFe>.*?<tpEvento>(\d+)<\/tpEvento>.*?<descEvento>(\w+)<\/descEvento>/g;
 const inut_info_part1_regEx =/(<cUF>)(.*?)(<\/cUF>).*?(<ano>)(\d+)(<\/ano>).*?(<CNPJ>)(\d+)(<\/CNPJ>).*?(<mod>)(\d+)(<\/mod>)/g;
 const inut_info_part2_regEx =/(<serie>)(.*?)(<\/serie>).*?(<nNFIni>)(\d+)(<\/nNFIni>).*?(<nNFFin>)(\d+)(<\/nNFFin>)/g;
 
@@ -45,7 +51,7 @@ class EnvelopeUtil {
     return this.getEnvelopeAutorizacao(xml_denegado);
   }
 
-  getEnvelopeAutorizacaoAutorizada(accessKey) {
+  getEnvelopeAutorizacaoAutorizada(eventoInfo) {
     return this.getEnvelopeAutorizacao(xml_autorizado, accessKey);
   }
 
@@ -69,9 +75,37 @@ class EnvelopeUtil {
 
   }
 
+  getEnvelopeRetornoEventoAutorizado(eventoInfo) {
+    return this.getEnvelopeRetornoEvento(eventoInfo, '135', 'Evento registrado e vinculado a NF-e');
+  }
+
+  getEnvelopeRetornoEvento(eventoInfo, cstat, xmotivo) {
+    return this.getBasicEnvelope(xml_retorno_evento).replaceAll(corgao_id, eventoInfo.orgao || '41')                                                    
+                                                    .replaceAll(tpevento_id, eventoInfo.tpEvento || '110111')
+                                                    .replace(access_key_id, eventoInfo.accessKey)
+                                                    .replace(xevento_id, eventoInfo.descEvento || 'Cancelamento')
+                                                    .replace(cstat_id, cstat || '135')
+                                                    .replace(xmotivo_id, xmotivo || 'Evento registrado e vinculado a NF-e');
+  }
+
   extractAccessKey(text) {
     var found = access_key_regEx.exec(text);
     return found ? found[3] : null;
+  }
+
+  extractEventoInfo(text) {
+    var eventoInfo = {};
+    var found = evento_info_regEx.exec(text);
+    if (found) {
+      const accessKey = found[1];      
+      eventoInfo["accessKey"] = accessKey;
+      eventoInfo["tpEvento"] = found[2];
+      eventoInfo["descEvento"] = found[3];
+      eventoInfo["orgao"] = accessKey.substring(0, 2);
+    }
+
+    console.log(eventoInfo);
+    return eventoInfo;
   }
 
   extractInutilizacaoInfo(text) {

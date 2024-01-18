@@ -63,4 +63,24 @@ app.post('/sefaz-mocked-denegar', (req, res) => responseProcessor.denegar(req, r
 
 app.post(['/NFeInutilizacao4', '/sefaz-mocked-inutilizar'], (req, res) => responseProcessor.inutilizar(req, res))
 
+app.post('/NFeRecepcaoEvento4', (req, res) => {
+  var action = process.env.NFE_AUTORIZACAO_RESULT || "0";
+  console.log(`NFeRecepcaoEvento4 >> Action ${action}`)
+  switch(action) {
+    case "2":
+        timeout(req, res);
+        break;
+
+    case "3":
+        var cStat = process.env.NFE_CSTAT || "999";
+        var xMotivo = process.env.NFE_XMOTIVO || "Erro desconhecido";
+		    console.log(`cStat: ${cStat} - xMotivo: ${xMotivo}`);
+        responseProcessor.rejeitarEvento(req, res, cStat, xMotivo);
+        break;
+
+    default:
+        responseProcessor.autorizarEvento(req, res);
+  }
+})
+
 app.listen(port, () => console.log(`Sefaz mocked services is running at http://localhost:${port}`))
