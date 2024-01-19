@@ -91,4 +91,4 @@ app.post('/NFeConsultaProtocolo4', (req, res) => {
   responseProcessor.retornarConsultaProtocolo(req, res, cStat, xMotivo);        
 })
 
-app.listen(port, () => console.log(`Sefaz mocked services is running at http://localhost:${port}`))
+app.listen(port, () => console.log(`Sefaz mocked services is running on port: ${port}`))
