@@ -22,6 +22,6 @@
   },
   "scripts": {
     "start": "node sefaz-mocked.js",
-    "dev": "nodemon sefaz-mocked.js"
+    "dev": "nodemon -w . -w .env sefaz-mocked.js"
   }
 }

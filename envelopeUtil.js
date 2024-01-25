@@ -54,11 +54,11 @@ class EnvelopeUtil {
     return this.getEnvelopeAutorizacao(xml_denegado);
   }
 
-  getEnvelopeAutorizacaoAutorizada(eventoInfo) {
+  getEnvelopeAutorizacaoAutorizada(accessKey) {
     return this.getEnvelopeAutorizacao(xml_autorizado, accessKey);
   }
 
-  getEnvelopeAutorizacaoRejeitada(accessKey, cStat, xMotivo) {
+  getEnvelopeAutorizacaoRejeitada(cStat, xMotivo) {
     if (!cStat) cStat = "999";
     if (!xMotivo) xMotivo = "Erro desconhecido";
 

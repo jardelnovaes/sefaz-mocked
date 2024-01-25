@@ -48,7 +48,7 @@ class ResponseProcessor {
 		  }
 		});
 		req.on('end', chunk => {
-		  var msgToReturn = envelopeUtil.getEnvelopeAutorizacaoRejeitada(accessKey, cStat, xMotivo);
+		  var msgToReturn = envelopeUtil.getEnvelopeAutorizacaoRejeitada(cStat, xMotivo);
 		  console.log(`>> ${msgToReturn}`);
 		  res.send(msgToReturn);
 		});
